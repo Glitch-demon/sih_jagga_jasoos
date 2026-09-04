@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-slate-200 text-ink font-sans antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Visible focus for keyboard users (WCAG 2.4.7) */
+  :focus-visible {
+    @apply outline-none ring-4 ring-brand-400/60 ring-offset-2 ring-offset-white;
+  }
+  button,
+  [role='button'] {
+    @apply cursor-pointer select-none;
+  }
+}
+
+@layer components {
+  /* Every tappable element clears the 44x44px target minimum */
+  .tap {
+    @apply min-h-[44px] min-w-[44px] transition-all duration-200 active:scale-[.97];
+  }
+  .card {
+    @apply rounded-2xl bg-white shadow-card border border-slate-100;
+  }
+  .btn-primary {
+    @apply tap flex items-center justify-center gap-2 rounded-2xl bg-brand-600 px-5 py-4
+           text-[17px] font-bold text-white shadow-lift hover:bg-brand-700;
+  }
+  .btn-ghost {
+    @apply tap flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-200
+           bg-white px-5 py-4 text-[16px] font-bold text-slate-600 hover:bg-slate-50;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-semibold;
+  }
+  /* Keyboard keys opt out of .tap's 44px min-width: 10-11 keys per row cannot fit
+     that on a phone. Height stays 44px and width stays >=24px (WCAG 2.5.8). */
+  .key {
+    @apply flex h-11 min-w-0 flex-1 items-center justify-center rounded-lg bg-white
+           text-[15px] font-semibold text-slate-800 shadow-sm transition-all duration-200
+           active:scale-[.97] active:bg-brand-50;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
