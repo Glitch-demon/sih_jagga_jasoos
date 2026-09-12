@@ -39,13 +39,13 @@ export default function Layout() {
           <button
             onClick={() => nav('/')}
             className="tap flex items-center gap-1.5 rounded-xl px-1 py-1"
-            aria-label="OPD Kiosk home"
+            aria-label="MediKiosk home"
           >
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">
               <Cross size={18} strokeWidth={3} />
             </span>
             <span className="text-[17px] font-extrabold tracking-tight text-brand-700">
-              OPD Kiosk
+              MediKiosk
             </span>
           </button>
 

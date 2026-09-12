@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 
 // Ordered flow used to render the thin progress bar at the top of the kiosk.
-const STEPS = ['/', '/language', '/login', '/home', '/assistant', '/scan', '/review', '/done']
+const STEPS = ['/', '/language', '/login', '/home', '/system', '/assistant', '/scan', '/review', '/done']
 
 export default function ProgressBar() {
   const { pathname } = useLocation()

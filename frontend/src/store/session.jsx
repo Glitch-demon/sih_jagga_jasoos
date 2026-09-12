@@ -11,6 +11,15 @@ const EMPTY = {
   symptoms: [], // [{ label, icon }]
   transcript: '',
   documents: [], // [{ title, meta, kind }]
+  consultationSystem: null, // 'allopathy' | 'ayush'
+  intakeAnswers: [], // [{ question, answer, section }]
+  // Kept separate from the clinical summary until the patient confirms the
+  // biological relationship that makes the history clinically relevant.
+  familyHistory: [
+    { condition: 'Type 2 diabetes', relation: 'Stepsister', biological: true },
+  ],
+  reviewAcknowledged: false,
+  reviewedAt: null,
 }
 
 export function SessionProvider({ children }) {

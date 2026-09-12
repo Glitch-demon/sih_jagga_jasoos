@@ -14,7 +14,9 @@ export default function Login() {
   const [form, setForm] = useState({ name: '', age: '', gender: 'Female', phone: '' })
 
   const pretty = abha.replace(/(.{4})/g, '$1-').replace(/-$/, '')
-  const ready = mode === 'abha' ? abha.length === 14 : form.name.trim().length > 1 && form.age
+  // Presentation accounts intentionally select a clinical pathway automatically.
+  const demoSystem = abha === '00000000000000' ? 'allopathy' : /^1{13,14}$/.test(abha) ? 'ayush' : null
+  const ready = mode === 'abha' ? abha.length === 14 || Boolean(demoSystem) : form.name.trim().length > 1 && form.age
 
   const tap = (k) => {
     if (k === 'del') return setAbha((v) => v.slice(0, -1))
@@ -27,10 +29,18 @@ export default function Login() {
     s.patch({
       patient:
         mode === 'abha'
-          ? { name: 'Aarav', id: 'PID-9876-5432', abha: pretty }
+          ? demoSystem === 'allopathy'
+            ? { name: 'Aarav', id: 'DEMO-ALLO-001', abha: pretty }
+            : demoSystem === 'ayush'
+              ? { name: 'Ananya', id: 'DEMO-AYUSH-001', abha: pretty }
+              : { name: 'Aarav', id: 'PID-9876-5432', abha: pretty }
           : { name: form.name.trim().split(' ')[0], id: 'PID-NEW-2041', ...form },
+      consultationSystem: demoSystem || null,
+      symptoms: [],
+      transcript: '',
+      intakeAnswers: [],
     })
-    nav('/home')
+    nav(demoSystem ? '/assistant' : '/home')
   }
 
   return (
@@ -95,6 +105,10 @@ export default function Login() {
               </button>
             ))}
           </div>
+          <aside className="mt-4 rounded-2xl border border-dashed border-brand-200 bg-brand-50 px-3.5 py-3" aria-label="Demo account details">
+            <p className="text-[11px] font-extrabold uppercase tracking-wide text-brand-700">Presentation demo accounts</p>
+            <p className="mt-1 text-[12px] font-semibold leading-snug text-slate-600"><span className="font-mono font-bold text-ink">0000 0000 0000 00</span> starts Allopathic intake. <span className="font-mono font-bold text-ink">1111 1111 1111 1</span> starts Ayurvedic intake.</p>
+          </aside>
         </div>
       ) : (
         <div className="mt-5 animate-rise space-y-3">

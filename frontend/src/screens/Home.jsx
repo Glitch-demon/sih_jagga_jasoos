@@ -61,7 +61,7 @@ export default function Home() {
         {actions.map((a) => (
           <button
             key={a.to}
-            onClick={() => nav(a.to)}
+            onClick={() => nav('/system', { state: { next: a.to } })}
             className="card tap flex w-full items-center gap-3.5 px-4 py-4 text-left hover:border-brand-200 hover:shadow-lift"
           >
             <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl ${a.tone}`}>

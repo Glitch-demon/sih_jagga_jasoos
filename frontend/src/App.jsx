@@ -4,6 +4,7 @@ import Idle from './screens/Idle.jsx'
 import Language from './screens/Language.jsx'
 import Login from './screens/Login.jsx'
 import Home from './screens/Home.jsx'
+import SystemSelection from './screens/SystemSelection.jsx'
 import Assistant from './screens/Assistant.jsx'
 import TypeSymptoms from './screens/TypeSymptoms.jsx'
 import ScanDocs from './screens/ScanDocs.jsx'
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/language" element={<Language />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/system" element={<SystemSelection />} />
         <Route path="/assistant" element={<Assistant />} />
         <Route path="/type" element={<TypeSymptoms />} />
         <Route path="/scan" element={<ScanDocs />} />

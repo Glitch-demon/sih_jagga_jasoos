@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CircleCheck, Clock, DoorOpen, Home, Printer, Stethoscope } from 'lucide-react'
+import { CircleCheck, Clock, DoorOpen, Home, Printer, ShieldCheck, Stethoscope } from 'lucide-react'
 import { useSession } from '../store/session.jsx'
 import { speak } from '../utils/speak.js'
 
@@ -32,13 +32,16 @@ export default function Done() {
         <CircleCheck size={46} strokeWidth={2.4} />
       </span>
       <h1 className="mt-4 text-[27px] font-extrabold leading-tight tracking-tight">
-        Sent to your doctor
+        Summary sent securely
       </h1>
       <p className="mt-1.5 max-w-[19rem] text-[14px] font-semibold leading-snug text-slate-600">
-        Your details are on Dr. Sharma’s screen. Please wait for your token to be called.
+        Your patient-approved MediKiosk summary has been transmitted to the Hospital Information System. Please wait for your token.
       </p>
 
       <div className="card mt-5 w-full px-5 py-5">
+        <div className="mb-4 flex items-center justify-center gap-1.5 rounded-xl bg-aqua-100 px-3 py-2 text-[12px] font-extrabold text-aqua-900">
+          <ShieldCheck size={16} strokeWidth={2.8} /> Patient-verified before HIS transmission
+        </div>
         <p className="text-[12px] font-bold uppercase tracking-widest text-slate-400">
           Your token
         </p>
