@@ -1,0 +1,20 @@
+
+> opd-kiosk-mobile@1.0.0 dev
+> vite --host 127.0.0.1 --port 5173
+
+
+  VITE v5.4.8  ready in 329 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+10:11:57 pm [vite] hmr update /src/store/session.jsx, /src/index.css
+10:11:57 pm [vite] hmr invalidate /src/store/session.jsx Could not Fast Refresh. Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+10:11:57 pm [vite] page reload src/store/session.jsx
+10:11:58 pm [vite] hmr update /src/screens/Login.jsx, /src/index.css
+10:13:00 pm [vite] hmr update /src/screens/Assistant.jsx, /src/index.css
+10:13:58 pm [vite] hmr update /src/screens/Assistant.jsx
+10:14:17 pm [vite] hmr update /src/screens/Review.jsx, /src/index.css
+10:14:32 pm [vite] hmr update /src/screens/Assistant.jsx, /src/index.css
+10:48:58 pm [vite] hmr update /src/screens/Assistant.jsx, /src/index.css
+10:49:00 pm [vite] hmr update /src/screens/TypeSymptoms.jsx, /src/index.css
+10:49:00 pm [vite] hmr update /src/screens/TypeSymptoms.jsx, /src/index.css
+10:49:30 pm [vite] hmr update /src/screens/TypeSymptoms.jsx, /src/index.css
