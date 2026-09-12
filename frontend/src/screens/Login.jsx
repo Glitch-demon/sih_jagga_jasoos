@@ -14,9 +14,10 @@ export default function Login() {
   const [form, setForm] = useState({ name: '', age: '', gender: 'Female', phone: '' })
 
   const pretty = abha.replace(/(.{4})/g, '$1-').replace(/-$/, '')
-  // Presentation accounts intentionally select a clinical pathway automatically.
+  // Presentation accounts provide recognizable patient details, but the patient
+  // still chooses their consultation system on the following screen.
   const demoSystem = abha === '00000000000000' ? 'allopathy' : /^1{13,14}$/.test(abha) ? 'ayush' : null
-  const ready = mode === 'abha' ? abha.length === 14 || Boolean(demoSystem) : form.name.trim().length > 1 && form.age
+  const ready = mode === 'abha' ? abha.length === 14 : form.name.trim().length > 1 && form.age
 
   const tap = (k) => {
     if (k === 'del') return setAbha((v) => v.slice(0, -1))
@@ -35,12 +36,12 @@ export default function Login() {
               ? { name: 'Ananya', id: 'DEMO-AYUSH-001', abha: pretty }
               : { name: 'Aarav', id: 'PID-9876-5432', abha: pretty }
           : { name: form.name.trim().split(' ')[0], id: 'PID-NEW-2041', ...form },
-      consultationSystem: demoSystem || null,
+      consultationSystem: null,
       symptoms: [],
       transcript: '',
       intakeAnswers: [],
     })
-    nav(demoSystem ? '/assistant' : '/home')
+    nav(mode === 'abha' ? '/system' : '/home')
   }
 
   return (
@@ -107,7 +108,7 @@ export default function Login() {
           </div>
           <aside className="mt-4 rounded-2xl border border-dashed border-brand-200 bg-brand-50 px-3.5 py-3" aria-label="Demo account details">
             <p className="text-[11px] font-extrabold uppercase tracking-wide text-brand-700">Presentation demo accounts</p>
-            <p className="mt-1 text-[12px] font-semibold leading-snug text-slate-600"><span className="font-mono font-bold text-ink">0000 0000 0000 00</span> starts Allopathic intake. <span className="font-mono font-bold text-ink">1111 1111 1111 1</span> starts Ayurvedic intake.</p>
+            <p className="mt-1 text-[12px] font-semibold leading-snug text-slate-600"><span className="font-mono font-bold text-ink">0000 0000 0000 00</span> and <span className="font-mono font-bold text-ink">1111 1111 1111 11</span> load sample patient details. You will then choose Allopathic or Ayurvedic care.</p>
           </aside>
         </div>
       ) : (
