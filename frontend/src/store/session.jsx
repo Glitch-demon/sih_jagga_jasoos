@@ -3,8 +3,11 @@ import { translate } from '../data/i18n.js'
 
 const SessionContext = createContext(null)
 
+const DEFAULT_LANGUAGE = 'en'
+const LANGUAGES = new Set(['en', 'hi', 'bn', 'ta', 'te', 'mr', 'gu', 'ur'])
+
 const EMPTY = {
-  lang: 'en',
+  lang: DEFAULT_LANGUAGE,
   voice: true,
   largeText: false,
   patient: null, // { name, id, abha }
@@ -23,10 +26,36 @@ const EMPTY = {
 }
 
 export function SessionProvider({ children }) {
-  const [state, setState] = useState(EMPTY)
+  const [state, setState] = useState(() => {
+    try {
+      const lang = window.sessionStorage.getItem('medikiosk-language')
+      return LANGUAGES.has(lang) ? { ...EMPTY, lang } : EMPTY
+    } catch {
+      return EMPTY
+    }
+  })
 
-  const patch = useCallback((next) => setState((s) => ({ ...s, ...next })), [])
-  const reset = useCallback(() => setState(EMPTY), [])
+  // Keep the language in the single session source of truth. Every route is
+  // rendered beneath this provider, so a language choice never resets when
+  // the user continues through the check-in flow.
+  const patch = useCallback((next) => {
+    if (next.lang && LANGUAGES.has(next.lang)) {
+      try {
+        window.sessionStorage.setItem('medikiosk-language', next.lang)
+      } catch {
+        // Storage may be unavailable in locked-down kiosk browsers.
+      }
+    }
+    setState((s) => ({ ...s, ...next }))
+  }, [])
+  const reset = useCallback(() => {
+    try {
+      window.sessionStorage.removeItem('medikiosk-language')
+    } catch {
+      // Storage may be unavailable in locked-down kiosk browsers.
+    }
+    setState(EMPTY)
+  }, [])
 
   const addSymptoms = useCallback((items) => {
     setState((s) => {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Check, CircleCheck, Volume2, VolumeX } from 'lucide-react'
 import { LANGUAGES } from '../data/i18n.js'
 import { useSession } from '../store/session.jsx'
@@ -7,18 +7,21 @@ import { useSession } from '../store/session.jsx'
 /** Screen 2 — Select Language (2-up grid on mobile). */
 export default function Language() {
   const nav = useNavigate()
+  const { state } = useLocation()
   const s = useSession()
   const [picked, setPicked] = useState(s.lang)
 
   const confirm = () => {
     s.patch({ lang: picked })
-    nav('/login')
+    // Selecting Translate from an active check-in should bring the person
+    // back to that same screen, not restart their registration.
+    nav(state?.returnTo || '/login')
   }
 
   return (
     <div className="flex min-h-full flex-col px-4 pb-4 pt-4">
       <button
-        onClick={() => nav('/')}
+        onClick={() => nav(state?.returnTo || '/')}
         className="tap mb-3 flex w-fit items-center gap-1.5 rounded-xl px-1 py-1 text-[14px] font-bold text-slate-500 hover:bg-slate-100"
       >
         <ArrowLeft size={18} strokeWidth={2.8} /> {s.t('back')}

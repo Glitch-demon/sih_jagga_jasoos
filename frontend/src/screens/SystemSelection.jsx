@@ -39,7 +39,8 @@ export default function SystemSelection() {
   const next = state?.next || '/assistant'
 
   const select = (system) => {
-    s.patch({ consultationSystem: system })
+    // A new system selection starts a clean, system-specific clinical intake.
+    s.patch({ consultationSystem: system, intakeAnswers: [], symptoms: [], transcript: '' })
     nav(next)
   }
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Accessibility,
+  ArrowLeft,
   Cross,
   Globe,
   House,
@@ -26,16 +27,51 @@ export default function Layout() {
   const [a11y, setA11y] = useState(false)
   const isIdle = pathname === '/'
 
+  const openLanguage = () => nav('/language', { state: { returnTo: pathname } })
+  const goBack = () => {
+    const fallback = {
+      '/language': '/',
+      '/login': '/language',
+      '/home': '/login',
+      '/system': '/home',
+      '/assistant': '/system',
+      '/type': '/assistant',
+      '/scan': '/home',
+      '/review': '/home',
+      '/done': '/review',
+      '/history': '/home',
+    }[pathname] || '/'
+
+    if (window.history.length > 1) nav(-1)
+    else nav(fallback)
+  }
+
   // Accessibility: "larger text" scales the whole rem-based type scale.
   useEffect(() => {
     document.documentElement.style.fontSize = s.largeText ? '18px' : '16px'
   }, [s.largeText])
+
+  useEffect(() => {
+    const language = LANGUAGES.find((item) => item.code === s.lang)
+    document.documentElement.lang = s.lang
+    document.documentElement.dir = language?.rtl ? 'rtl' : 'ltr'
+  }, [s.lang])
 
   return (
     <div className="flex min-h-full items-center justify-center sm:p-6">
       <div className="relative flex h-[100dvh] w-full max-w-[430px] flex-col overflow-hidden bg-canvas sm:h-[880px] sm:rounded-[2.5rem] sm:border-[10px] sm:border-slate-900 sm:shadow-2xl">
         {/* ── Top bar ─────────────────────────────────────────── */}
         <header className="z-20 flex shrink-0 items-center gap-2 border-b border-slate-200 bg-white px-3 py-2.5">
+          {!isIdle && (
+            <button
+              onClick={goBack}
+              className="tap grid h-11 w-11 shrink-0 place-items-center rounded-xl text-slate-600 hover:bg-slate-100"
+              aria-label={s.t('back')}
+              title={s.t('back')}
+            >
+              <ArrowLeft size={22} strokeWidth={2.6} />
+            </button>
+          )}
           <button
             onClick={() => nav('/')}
             className="tap flex items-center gap-1.5 rounded-xl px-1 py-1"
@@ -60,7 +96,7 @@ export default function Layout() {
               </button>
             )}
             <button
-              onClick={() => nav('/language')}
+              onClick={openLanguage}
               className="tap flex flex-col items-center rounded-xl px-2 py-1 text-slate-600 hover:bg-slate-100"
             >
               <Languages size={20} strokeWidth={2.4} />
@@ -79,7 +115,11 @@ export default function Layout() {
         <ProgressBar />
 
         {/* ── Screen ──────────────────────────────────────────── */}
-        <main className="no-scrollbar relative flex-1 overflow-y-auto overscroll-contain">
+        <main
+          className="no-scrollbar relative flex-1 overflow-y-auto overscroll-contain"
+          lang={s.lang}
+          dir={LANGUAGES.find((item) => item.code === s.lang)?.rtl ? 'rtl' : 'ltr'}
+        >
           <Outlet />
         </main>
 
@@ -98,7 +138,7 @@ export default function Layout() {
               {s.t('accessibility')}
             </button>
             <button
-              onClick={() => nav('/language')}
+              onClick={openLanguage}
               className="tap flex items-center gap-1 rounded-lg px-1.5 py-1 text-[11px] font-bold text-aqua-900 hover:bg-white/40"
             >
               <Globe size={14} strokeWidth={2.8} />
